@@ -1,5 +1,6 @@
-import Link from 'next/link';
 import React from 'react';
+
+import Link from 'next/link';
 import { useCelebContext } from '~/lib/components/StaticPropsContextProvider';
 import { Fact as TFact } from '~/lib/components/types';
 
@@ -9,19 +10,21 @@ export const Fact: React.FC<{ value: TFact }> = ({ value }) => {
   } = useCelebContext();
 
   return (
-    <div>
-      <div>
+    <div className='fact'>
+      <div className='date'>
         <p>{value.date}</p>
       </div>
 
-      <div>
+      <div className='content'>
         {(value.type === 'quote' && (
           <div>
-            <p>
+            <p className='context'>
               {value.context}, {name} said
             </p>
 
-            <blockquote>
+            <blockquote className='blockquote'>
+              <div className='quoteMark'>
+              </div>
               <p>{value.quote}</p>
             </blockquote>
           </div>
@@ -33,10 +36,10 @@ export const Fact: React.FC<{ value: TFact }> = ({ value }) => {
           ))}
       </div>
 
-      <div>
-        {value.tags.map((t) => {
+      <div className='tags myFlex'>
+        {value.tags.map((t, index) => {
           return (
-            <p key={t.tag.name}>
+            <p key={t.tag.name} style={{marginLeft: index>0?"1rem":"0px"}}>
               # {t.isLowConfidence && 'Possibly '}
               {t.tag.name}
             </p>
@@ -44,9 +47,11 @@ export const Fact: React.FC<{ value: TFact }> = ({ value }) => {
         })}
       </div>
 
-      <div>
-        <Link href={value.source}>Source</Link>
-        <Link href={value.forumLink}>Forum link</Link>
+      <div className='links myFlex'>
+        <div className="myRight">
+          <Link href={value.source}>Source</Link>
+          <Link href={value.forumLink}>Forum link</Link>
+        </div>
       </div>
     </div>
   );
